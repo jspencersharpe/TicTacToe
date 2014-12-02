@@ -1,19 +1,21 @@
-;(function(){
+;(function(JQ){
+
   "use strict";
+  
   var $xOro;
   var counter = 0;
-  $('.space').one('click', function(e) {
-    counter++;
+  
+  $('td').one('click', function(e) {
     if (counter % 2 === 0) {
-      $xOro = "O";
-      //$(this).removeClass(".0");
-      //$(this).addClass(".0");
+      $(this).addClass("x");
+      $xOro = "x";
     } else {
-      $xOro = "X";
-      //$(this).removeClass(".X")
-      //$(this).addClass(".X");
+      $(this).addClass("o");
+      $xOro = "o";
     }
        e.stopPropagation();
       $(this).append($xOro);
+
+      return counter++;
     });
-}());
+}(jQuery));

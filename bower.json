@@ -1,0 +1,17 @@
+{
+  "name": "TicTacToe",
+  "version": "0.0.0",
+  "homepage": "https://github.com/jspencersharpe/TicTacToe",
+  "main": "index.html",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jQuery": "~2.1.1"
+  }
+}
