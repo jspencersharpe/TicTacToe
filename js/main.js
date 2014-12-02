@@ -1,7 +1,7 @@
-;(function(JQ){
+;var ttt = (function(){
 
   "use strict";
-  
+  var fb = new Firebase('https://spencertictactoe.firebaseio.com/');
   var $xOro;
   var counter = 0;
   
@@ -17,5 +17,5 @@
       $(this).append($xOro);
 
       return counter++;
-    });
-}(jQuery));
+  });
+}());
