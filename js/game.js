@@ -12,3 +12,6 @@
   // top to bottom 3 ways
   // side to side 3 ways
   // diagonal both ways
+  // .set
+  // .onDisconnect is a firebase function, 
+  // .remove is a firebase thing as well

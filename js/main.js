@@ -1,5 +1,9 @@
 ;var ttt = (function(){
 
+  //fb.once()
+  //snapshot = data that gets returned
+  //snapshot.val = data
+
   "use strict";
   var fb = new Firebase('https://spencertictactoe.firebaseio.com/');
   var $xOro;
@@ -17,5 +21,6 @@
       $(this).append($xOro);
 
       return counter++;
+      fb.push(ttt);
   });
 }());

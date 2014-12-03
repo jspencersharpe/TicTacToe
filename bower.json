@@ -12,6 +12,7 @@
     "tests"
   ],
   "dependencies": {
-    "jQuery": "~2.1.1"
+    "jQuery": "~2.1.1",
+      "firebase"
   }
 }
