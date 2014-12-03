@@ -1,10 +1,21 @@
+var topWin; 
+var midWin;
+var botWin;
+var leftWin
+var downWin
+var rightWin;
+var tLBR;
+var tRBL;
+
+var a1 = $('#a1');
+
 ;(function(){
   "use strict";
-  
-  if ($('td#a1').hasClass('x')) {
-  //if ($("td#a1:contains('X')") && $("td#b1:contains('X')") && $("td#c1:contains('X')")){
-    alert("Player 1 wins!");
-  };
+$('#a1').click(function(){
+      if (a1.hasClass('x')) {
+      alert("Player 1 wins!");
+  }
+});
 
 }());
 
