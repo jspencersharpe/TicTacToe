@@ -1,10 +1,15 @@
+var board = [['', '', ''], ['', '', ''],['', '', '']];
+
 currentMove = 'X';
 var movesLeft = 9;
 
 $('td').click(function () {
   var $this = $(this);
+  var row = $this.parent().index();
+  var col = $this.index();
   
-  if ($this.text() === '') {
+  if (!board[row][col] && !whoWon()) {
+    board[row][col] = currentMove;
     $(this).text(currentMove);
     currentMove = currentMove === 'X' ? 'O' : 'X';
     
@@ -21,15 +26,15 @@ $('td').click(function () {
 });
 
 function whoWon() {
-  var td1 = $('tr:nth-child(1) td:nth-child(1)').text();
-  var td2 = $('tr:nth-child(1) td:nth-child(2)').text();
-  var td3 = $('tr:nth-child(1) td:nth-child(3)').text();
-  var td4 = $('tr:nth-child(2) td:nth-child(1)').text();
-  var td5 = $('tr:nth-child(2) td:nth-child(2)').text();
-  var td6 = $('tr:nth-child(2) td:nth-child(3)').text();
-  var td7 = $('tr:nth-child(3) td:nth-child(1)').text();
-  var td8 = $('tr:nth-child(3) td:nth-child(2)').text();
-  var td9 = $('tr:nth-child(3) td:nth-child(3)').text();
+  var td1 = board[0][0];
+  var td2 = board[0][1];
+  var td3 = board[0][2];
+  var td4 = board[1][0];
+  var td5 = board[1][1];
+  var td6 = board[1][2];
+  var td7 = board[2][0];
+  var td8 = board[2][1];
+  var td9 = board[2][2];
   
   // Rows
   if (td1 && td1 === td2 && td2 === td3) {
