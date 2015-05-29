@@ -1,34 +1,18 @@
-;var ttt = (function(){
-  "use strict";
-  var fb = new Firebase('https://spencertictactoe.firebaseio.com/');
-  var $xOro;
-  var counter = 0;
+currentMove = 'X';
+var moveCount = 9;
+
+$('td').on('click', function() {
+  var $this = $(this);
   
-  //fb.once()
-  //snapshot = data that gets returned
-  //snapshot.val = data
-  //
-  board: [["", "", ""],
-          ["", "", ""],
-          ["", "", ""]],
+  if ($this.text() === '') {
+    $(this).text(currentMove);
+    currentMove = currentMove === 'X' ? 'O' : 'X';
 
-function(board, td){
-    var GameBoard = $(td).index();
-    fb.once(GameBoard);
-  }
-
-    $('td').one('click', function(e) {
-    if (counter % 2 === 0) {
-      $(this).addClass("x");
-      $xOro = "x";
+    if (movesLeft--) {
+      $('.status').text("${currentMove}'s Move");
     } else {
-      $(this).addClass("o");
-      $xOro = "o";
+      $('.status').text("It's a tie");
     }
-      $(this).append($xOro);
-      return counter++;
-    });
-}());
-
-  
-
+    
+  }
+});

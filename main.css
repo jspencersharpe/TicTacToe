@@ -1,7 +1,6 @@
 td {
   border: 1px solid black;
   border-spacing: 0;
-  border-bottom: none;
   height: 160px;
   width: 160px;
   text-align: center;
@@ -16,6 +15,7 @@ table#board {
   width: 500px;
   height: 500px;
   padding-bottom: 20px;
+  border-collapse: collapse;
 }
 
 
