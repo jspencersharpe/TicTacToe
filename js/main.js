@@ -1,29 +1,92 @@
-var board = [['', '', ''], ['', '', ''],['', '', '']];
+var fb = new Firebase('https://spencertictactoe.firebaseio.com');
+var gamesRef = fb.child('games');
+var board = [['','',''],['','',''],['','','']];
+var currentMove;
+var movesLeft;
+var myPiece;
+var gameRef;
 
-currentMove = 'X';
-var movesLeft = 9;
+function randomXO() {
+  return _.sample(['X','O']);
+}
 
-$('td').click(function () {
+var lastGame = gamesRef.limitToLast(1);
+
+lastGame.once('value', function (snapshot) {
+  var data = snapshot.val() || {};
+  var uuid = Object.keys(data)[0];
+  
+  if (!uuid || data[uuid].player2) {
+    // create a new game
+    myPiece = randomXO();
+    gameRef = gamesRef.push({ board: board, player1: myPiece});
+  } else {
+   // attach to last game
+    myPiece = data[uuid].player1 === 'X' ? 'O' : 'X';
+    gameRef = gamesRef.child(uuid);
+    gameRef.update({player2: myPiece});
+  }
+  
+  gameRef.onDisconnect().remove();
+  
+  gameRef.on('value', function (snapshot) {
+    if (snapshot.val()) {
+      board = snapshot.val().board;
+      movesLeft = 9 - _(board).flatten().compact().value().length;
+      currentMove = movesLeft % 2 ? 'X' : 'O';
+
+      var $table = createBoardTable(board);
+      $('table').replaceWith($table);
+
+      displayStatus(snapshot.val());
+    } else {
+      // window.location.reload();
+      alert('A player disconnected. Refresh the page')
+    }
+  });
+  
+  $('.piece').text(`You are playing as ${myPiece}`)
+});
+
+
+$('.board').on('click', 'td', function () {
   var $this = $(this);
   var row = $this.parent().index();
   var col = $this.index();
   
-  if (!board[row][col] && !whoWon()) {
+  if (myPiece === currentMove && !board[row][col] && !whoWon()) {
     board[row][col] = currentMove;
-    $(this).text(currentMove);
-    currentMove = currentMove === 'X' ? 'O' : 'X';
-    
-    var winner = whoWon();
-    
-    if (winner) {
-      $('.status').text(`${winner} Wins`);
-    } else if (--movesLeft) {
-      $('.status').text(`${currentMove}'s Move`);
-    } else {
-      $('.status').text(`It's a tie`);
-    }
+    gameRef.child('board').set(board);
   }
 });
+
+function displayStatus(data) {
+  var winner = whoWon();
+  
+  if (!data.player2) {
+    $('.status').text(`Waiting on second player...`);
+  } else if (winner) {
+    $('.status').text(`${winner} Wins`);
+  } else if (movesLeft) {
+    $('.status').text(`${currentMove}'s Move`);
+  } else {
+    $('.status').text(`It's a tie`);
+  }
+}
+
+function createBoardTable(board) {
+  var $table = $('<table>');
+  board.forEach(function (r) {
+    var $row = $('<tr>');
+    r.forEach(function (c) {
+      var $cell = $(`<td>`).text(c);
+      $row.append($cell);
+    })
+    $table.append($row);
+  });
+  return $table;
+}
+
 
 function whoWon() {
   var td1 = board[0][0];
@@ -58,6 +121,8 @@ function whoWon() {
   } else if (td3 && td3 === td5 && td5 === td7) {
     return td3;
   }
+
   // Tie or In-Progress
   return null
 }
+
